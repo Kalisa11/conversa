@@ -1,12 +1,14 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import axios from "axios";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
-import { FcGoogle } from "react-icons/fc";
 import { BsGithub, BsGoogle } from "react-icons/bs";
+import { signIn } from "next-auth/react";
 import Button from "@/app/components/Button";
 import Input from "@/app/components/Inputs/Input";
 import SocialAuth from "./SocialAuth";
+// import { toast } from "react-hot-toast";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -33,11 +35,56 @@ const AuthForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
     console.log(data);
+    if (variant === "LOGIN") {
+      signIn("credentials", { redirect: false, ...data })
+        .then((res) => {
+          if (res?.error) {
+            // toast.error(res?.error);
+            console.log(res?.error);
+          }
+          if (res?.ok && !res?.error) {
+            console.log("success");
+            // toast.success("Success");
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+      // next-auth sign in
+    } else if (variant === "REGISTER") {
+      // next-auth sign up
+      axios
+        .post("/api/register", data)
+        .then((res) => {
+          console.log("response here", res);
+        })
+        .catch((err) => {
+          console.log("error here", err.message);
+          // toast.error(err.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   };
 
-  const socialActions = (action: string) => {
+  const socialActions = (provider: string) => {
     setIsLoading(true);
     // next-auth social sign in
+    signIn(provider, { redirect: false })
+      .then((res) => {
+        if (res?.error) {
+          // toast.error(res?.error);
+          console.log(res?.error);
+        }
+        if (res?.ok && !res?.error) {
+          console.log("Login success");
+          // toast.success("Success");
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
   return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
