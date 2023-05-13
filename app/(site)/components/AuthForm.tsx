@@ -8,7 +8,7 @@ import { signIn } from "next-auth/react";
 import Button from "@/app/components/Button";
 import Input from "@/app/components/Inputs/Input";
 import SocialAuth from "./SocialAuth";
-// import { toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -36,35 +36,42 @@ const AuthForm = () => {
     setIsLoading(true);
     console.log(data);
     if (variant === "LOGIN") {
+      // next-auth sign in
       signIn("credentials", { redirect: false, ...data })
         .then((res) => {
           if (res?.error) {
-            // toast.error(res?.error);
+            toast.error(res?.error);
             console.log(res?.error);
           }
           if (res?.ok && !res?.error) {
             console.log("success");
-            // toast.success("Success");
+            toast.success("Login Success");
           }
         })
         .finally(() => {
           setIsLoading(false);
         });
-      // next-auth sign in
     } else if (variant === "REGISTER") {
       // next-auth sign up
-      axios
-        .post("/api/register", data)
-        .then((res) => {
-          console.log("response here", res);
-        })
-        .catch((err) => {
-          console.log("error here", err.message);
-          // toast.error(err.message);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      toast.promise(
+        axios
+          .post("/api/register", data)
+          .then((res) => {
+            console.log("response here", res);
+          })
+          .catch((err) => {
+            toast.error(err.message);
+            console.log("error here", err.message);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          }),
+        {
+          loading: "Registering user...",
+          success: "User registered successfully",
+          error: "Error registering user",
+        }
+      );
     }
   };
 
@@ -74,12 +81,12 @@ const AuthForm = () => {
     signIn(provider, { redirect: false })
       .then((res) => {
         if (res?.error) {
-          // toast.error(res?.error);
+          toast.error(res?.error);
           console.log(res?.error);
         }
         if (res?.ok && !res?.error) {
           console.log("Login success");
-          // toast.success("Success");
+          toast.success("Login Success");
         }
       })
       .finally(() => {

@@ -1,14 +1,9 @@
 "use client";
 
-// import { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 const ToastContext = () => {
-  return (
-    <>
-      <div>Toaster</div>
-      {/* <Toaster /> */}
-    </>
-  );
+  return <Toaster />;
 };
 
 export default ToastContext;
