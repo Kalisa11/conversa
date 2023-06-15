@@ -1,4 +1,4 @@
-import getCurrentUser from "@/pages/api/actions/getCurrentUser";
+import getCurrentUser from "@/src/actions/getCurrentUser";
 import DesktopSidebar from "./DesktopSidebar";
 import MobileFooter from "./MobileFooter";
 
