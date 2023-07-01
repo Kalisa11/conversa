@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import axios from "axios";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { HiPaperAirplane, HiPhoto } from "react-icons/hi2";
@@ -36,6 +37,7 @@ const Form = () => {
       conversationId,
     });
   };
+  
   return (
     <div className="py-4 px-4 bg-white border-t flex items-center gap-2 lg:gap-4 w-full">
       <CldUploadButton
