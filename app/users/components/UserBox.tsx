@@ -19,10 +19,10 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
       .post("/api/conversations", { userId: data.id })
       .then((res) => {
         console.log(res.data);
-        // router.push(`/conversations/${res.data.id}`);
+        router.push(`/conversations/${res.data.id}`);
       })
       .finally(() => setIsLoading(false));
-  }, [data]);
+  }, [data.id, router]);
   return (
     <div
       onClick={handleClick}
