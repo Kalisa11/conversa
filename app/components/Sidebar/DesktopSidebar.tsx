@@ -4,7 +4,7 @@ import { useState } from "react";
 import useRoutes from "@/src/hooks/useRoutes";
 import DesktopItem from "./DesktopItem";
 import { User } from "@prisma/client";
-import Avatar from "../Avatar";
+import Avatar from "../Avatars/Avatar";
 import SettingsModal from "../Modals/SettingsModal";
 
 interface DesktopSidebarProps {
