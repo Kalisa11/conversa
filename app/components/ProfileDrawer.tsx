@@ -6,9 +6,10 @@ import { format } from "date-fns";
 import { Conversation, User } from "@prisma/client";
 import useOtherUser from "@/src/hooks/useOtherUser";
 import { IoClose, IoTrash } from "react-icons/io5";
-import Avatar from "./Avatar";
+import Avatar from "./Avatars/Avatar";
 import Modal from "./Modals/Modal";
 import ConfirmModal from "./Modals/ConfirmModal";
+import GroupAvatar from "./Avatars/Group";
 
 interface ProfileDrawerProps {
   isOpen: boolean;
@@ -84,7 +85,11 @@ const ProfileDrawer = ({ isOpen, data, onClose }: ProfileDrawerProps) => {
                       <div className="mt-6 relative flex-1 px-4 sm:px-6">
                         <div className="flex flex-col items-center">
                           <div className="mb-2">
-                            <Avatar user={otherUser} />
+                            {data.isGroup ? (
+                              <GroupAvatar users={data.users} />
+                            ) : (
+                              <Avatar user={otherUser} />
+                            )}
                           </div>
                           <div>{title}</div>
                           <div className="text-sm text-gray-500">{status}</div>
@@ -103,13 +108,24 @@ const ProfileDrawer = ({ isOpen, data, onClose }: ProfileDrawerProps) => {
                           </div>
                           <div className="w-full pb-5 pt-5 sm:px-0 sm:pt-0">
                             <dl className="space-y-8 px-4 sm:space-y-6 sm:px-6">
-                              {!data.isGroup && (
+                              {!data.isGroup ? (
                                 <div>
                                   <dt className="text-sm font-medium text-gray-500 sm:flex-shrink-0">
                                     Email
                                   </dt>
                                   <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
                                     {otherUser.email}
+                                  </dd>
+                                </div>
+                              ) : (
+                                <div>
+                                  <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
+                                    Emails
+                                  </dt>
+                                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                    {data.users.map((user) => (
+                                      <div key={user.email}>{user.email}</div>
+                                    ))}
                                   </dd>
                                 </div>
                               )}

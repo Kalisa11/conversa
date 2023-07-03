@@ -8,7 +8,8 @@ import clsx from "clsx";
 
 import { FullConversationType } from "@/src/types";
 import useOtherUser from "@/src/hooks/useOtherUser";
-import Avatar from "../Avatar";
+import Avatar from "../Avatars/Avatar";
+import GroupAvatar from "../Avatars/Group";
 
 const ConversationBox = ({
   data,
@@ -56,7 +57,6 @@ const ConversationBox = ({
     }
     return "Started a conversation";
   }, [lastMessage]);
-  console.log({ otherUser });
   return (
     <div
       onClick={handleClick}
@@ -65,7 +65,11 @@ const ConversationBox = ({
         selected ? "bg-neutral-100" : "bg-white"
       )}
     >
-      <Avatar user={otherUser} />
+      {data.isGroup ? (
+        <GroupAvatar users={data?.users} />
+      ) : (
+        <Avatar user={otherUser} />
+      )}
       <div className="min-w-0 flex-1">
         <div className="focus:outline-none">
           <div className="flex justify-between items-center mb-1">
