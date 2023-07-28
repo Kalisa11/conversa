@@ -47,6 +47,7 @@ export async function DELETE(req: Request, { params }: { params: IParams }) {
         );
       }
     });
+
     return NextResponse.json(deletedConversation);
   } catch (error) {
     console.error(error, "deleting conversation failed");
