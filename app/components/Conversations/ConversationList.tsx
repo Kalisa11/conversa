@@ -12,6 +12,7 @@ import GroupChatModal from "../Modals/GroupChat";
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { pusherClient } from "@/app/lib/pusher";
+import { find } from "lodash";
 
 const ConversationList = ({
   initialItems,
@@ -34,13 +35,15 @@ const ConversationList = ({
     if (!pusherKey) {
       return;
     }
+    pusherClient.subscribe(pusherKey);
 
     const newHandler = (conversation: FullConversationType) => {
       setItems((current) => {
-        if (current.find((item) => item.id === conversation.id)) {
+        if (find(current, { id: conversation.id })) {
           return current;
         }
-        return [...current, conversation];
+
+        return [conversation, ...current];
       });
     };
 
@@ -53,14 +56,13 @@ const ConversationList = ({
       }
     };
 
-    pusherClient.subscribe(pusherKey);
-    pusherClient.bind("conversations:new", newHandler);
-    pusherClient.bind("conversations:remove", removeHandler);
+    pusherClient.bind("conversation:new", newHandler);
+    pusherClient.bind("conversation:remove", removeHandler);
 
     return () => {
       pusherClient.unsubscribe(pusherKey);
-      pusherClient.unbind("conversations:new", newHandler);
-      pusherClient.unbind("conversations:remove", removeHandler);
+      pusherClient.unbind("conversation:new", newHandler);
+      pusherClient.unbind("conversation:remove", removeHandler);
     };
   }, [conversationId, pusherKey, router]);
 
