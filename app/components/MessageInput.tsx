@@ -19,7 +19,6 @@ const MessageInput = ({
   required,
   placeholder,
 }: MessageInputProps) => {
-  console.log(errors);
   return (
     <div className="relative w-full">
       <input
@@ -33,14 +32,6 @@ const MessageInput = ({
         placeholder={placeholder}
         className="text-black font-light py-2 px-4 bg-neutral-100 w-full rounded-full focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-neutral-100"
       />
-      {errors.message?.type === "required" && (
-        <p className="text-red-500 text-sm font-medium">Message is a required field</p>
-      )}
-      {errors.message?.type === "pattern" && (
-        <p className="text-red-500 text-sm font-medium">
-          Message can not contain whitespaces only
-        </p>
-      )}
     </div>
   );
 };

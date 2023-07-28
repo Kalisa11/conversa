@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import { MdOutlineGroupAdd } from "react-icons/md";
@@ -10,6 +10,8 @@ import useConversation from "@/src/hooks/useConversation";
 import ConversationBox from "./ConversationBox";
 import GroupChatModal from "../Modals/GroupChat";
 import { User } from "@prisma/client";
+import { useSession } from "next-auth/react";
+import { pusherClient } from "@/app/lib/pusher";
 
 const ConversationList = ({
   initialItems,
@@ -21,7 +23,46 @@ const ConversationList = ({
   const [items, setItems] = useState(initialItems);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
+  const session = useSession();
   const { conversationId, isOpen } = useConversation();
+
+  const pusherKey = useMemo(() => {
+    return session?.data?.user?.email;
+  }, [session]);
+
+  useEffect(() => {
+    if (!pusherKey) {
+      return;
+    }
+
+    const newHandler = (conversation: FullConversationType) => {
+      setItems((current) => {
+        if (current.find((item) => item.id === conversation.id)) {
+          return current;
+        }
+        return [...current, conversation];
+      });
+    };
+
+    const removeHandler = (conversation: FullConversationType) => {
+      setItems((current) => {
+        return [...current.filter((convo) => convo.id !== conversation.id)];
+      });
+      if (conversationId === conversation.id) {
+        router.push("/conversations");
+      }
+    };
+
+    pusherClient.subscribe(pusherKey);
+    pusherClient.bind("conversations:new", newHandler);
+    pusherClient.bind("conversations:remove", removeHandler);
+
+    return () => {
+      pusherClient.unsubscribe(pusherKey);
+      pusherClient.unbind("conversations:new", newHandler);
+      pusherClient.unbind("conversations:remove", removeHandler);
+    };
+  }, [conversationId, pusherKey, router]);
 
   return (
     <>
