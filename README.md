@@ -1,34 +1,100 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Conversa messenger
 
-First, run the development server:
+## Description
+Conversa allows users to chat with each other in real-time and exchange messages, images, and more. This document will guide you through the setup, installation, and usage of the app.
 
+
+## Features
+
+- User authentication and registration
+- Sending text messages and images
+- Group chat
+- Real-time messaging
+- Emojis and stickers support
+- User online status indication
+- Message read receipts
+
+
+## Installation
+Follow the instructions below to set up the Messenger app locally on your machine.
+
+### Prerequisites
+Before you start, make sure you have the following installed:
+
+- Node.js (version 18 or above)
+- npm or yarn
+- MongoDB (or you can use MongoDB Atlas or any other cloud-based MongoDB service)
+- API testing tool such as Postman or Insomnia (optional)
+
+### Local installation
+
+1. Clone the repo
+
+```bash
+git clone https://github.com/Kalisa11/conversa.git
+cd conversa
+```
+
+2. Install the dependencies
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Configure Environment Variables:
+```bash
+DATABASE_URL=
+NEXTAUTH_SECRET=
+
+NEXT_PUBLIC_PUSHER_APP_KEY=
+PUSHER_APP_ID=
+PUSHER_SECRET=
+
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
+
+GITHUB_ID=
+GITHUB_SECRET=
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+```
+4. Start the development server
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
+
 ```
+## Environment Variables
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To run this project, you will need to add the following environment variables to your .env file
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`DATABASE_URL`
+`NEXTAUTH_SECRET`
+`NEXT_PUBLIC_PUSHER_APP_KEY`
+`PUSHER_APP_ID`
+`PUSHER_SECRET`
+`NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`
+`GITHUB_ID`
+`GITHUB_SECRET`
+`GOOGLE_CLIENT_ID`
+`GOOGLE_CLIENT_SECRET`
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+**Front end:** TailwindCSS, Next.js 13, Headless UI
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Backend:** MongoDB, Prisma, Axios, Pusher-js
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+**Authentication:** NextAuth
 
-## Deploy on Vercel
+**State management:** Zustand
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Authors
+
+- [Kalisa H](https://github.com/honorekalisa)
