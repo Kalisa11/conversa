@@ -97,4 +97,4 @@ To run this project, you will need to add the following environment variables to
 
 ## Authors
 
-- [Kalisa H](https://github.com/honorekalisa)
+- [Kalisa H](https://github.com/Kalisa11)

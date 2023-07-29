@@ -20,7 +20,6 @@ const AuthForm = () => {
   const session = useSession();
   const router = useRouter();
 
-  console.log({ session });
   useEffect(() => {
     if (session.status === "authenticated") {
       router.push("/users");
@@ -46,17 +45,14 @@ const AuthForm = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-    console.log(data);
     if (variant === "LOGIN") {
       // next-auth sign in
       signIn("credentials", { redirect: false, ...data })
         .then((res) => {
           if (res?.error) {
             toast.error(res?.error);
-            console.log(res?.error);
           }
           if (res?.ok && !res?.error) {
-            console.log("success");
             toast.success("Login Success");
             router.push("/users");
           }
@@ -70,12 +66,10 @@ const AuthForm = () => {
         axios
           .post("/api/register", data)
           .then((res) => {
-            console.log("response here", res);
             signIn("credentials", data);
           })
           .catch((err) => {
             toast.error(err.message);
-            console.log("error here", err.message);
           })
           .finally(() => {
             setIsLoading(false);
@@ -96,10 +90,8 @@ const AuthForm = () => {
       .then((res) => {
         if (res?.error) {
           toast.error(res?.error);
-          console.log(res?.error);
         }
         if (res?.ok && !res?.error) {
-          console.log("Login success");
           toast.success("Login Success");
         }
       })

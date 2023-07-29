@@ -22,7 +22,6 @@ const Form = () => {
   });
 
   const handleUpload = (file: any) => {
-    console.log(file);
     axios.post(`/api/messages`, {
       image: file?.info?.secure_url,
       conversationId,
@@ -30,7 +29,6 @@ const Form = () => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
     setValue("message", "", { shouldValidate: true });
     axios.post(`/api/messages`, {
       ...data,
